@@ -25,12 +25,14 @@ export class LobbyService {
         data: { timestamp: new Date(Date.now()).toISOString() },
       });
 
-      await this.game.createGame({
+      const newGame = await this.game.createGame({
         player1Id: lobbies.sessionId,
         player2Id: newPlayer.sessionId,
       });
 
       await this.prisma.lobby.deleteMany();
+
+      return newPlayer.sessionId, newGame.gameId;
     }
   }
 }
